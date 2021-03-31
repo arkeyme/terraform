@@ -3,7 +3,7 @@ terraform {
   backend "s3" {
     bucket = "terra-back-1488"
     key    = "master/terraform.tfstate"
-    region = var.aws_region
+    region = "eu-north-1"
     ## https://www.terraform.io/docs/language/settings/backends/s3.html#dynamodb-state-locking
     dynamodb_table = "terraform_lock"
   }
