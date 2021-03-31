@@ -8,3 +8,9 @@ variable "aws_region" {
   default = "eu-north-1"
 }
 
+variable "instance_name" {
+
+  description = ""
+  default = "Host"
+  
+}

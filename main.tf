@@ -38,25 +38,27 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_instance" "example" {
+  count = 4
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
 
   tags = {
-    Name = "ExampleInstance"
+    Name = join("",[var.instance_name,"-example-",count.index])
   }
 }
 
 resource "aws_instance" "web" {
+  count = 4
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
 
   tags = {
-    Name = "ExampleInstance"
+    Name = join("",[var.instance_name,"-web-",count.index])
   }
 }
 ## https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip
 resource "aws_eip" "lb" {
-  instance = aws_instance.web.id
+  instance = aws_instance.web[0].id
   vpc = true
   }
 
