@@ -3,7 +3,7 @@ terraform {
   backend "s3" {
     bucket = "terra-back-1488"
     key    = "master/terraform.tfstate"
-    region = "eu-north-1"
+    region = var.aws_region
     ## https://www.terraform.io/docs/language/settings/backends/s3.html#dynamodb-state-locking
     dynamodb_table = "terraform_lock"
   }
@@ -17,7 +17,7 @@ terraform {
 
 provider "aws" {
   profile = "default"
-  region  = "eu-north-1"
+  region  = var.aws_region
 }
 
 ## https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami
