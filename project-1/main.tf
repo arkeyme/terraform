@@ -18,8 +18,10 @@ provider "aws" {
 }
 
 resource "aws_instance" "web" {
-
+    count = 3
     ami = "ami-02baf2b4223a343e8"
     instance_type = "t3.micro"
-  
+    tags = {
+    Name = "amazon-linux"
+  }
 }
