@@ -1,7 +1,7 @@
 terraform {
   ## https://www.terraform.io/docs/language/settings/backends/s3.html
   backend "s3" {
-    bucket = "terra-back-1488"
+    bucket = "terra-back-1339"
     key    = "master/terraform.tfstate"
     region = "eu-north-1"
     ## https://www.terraform.io/docs/language/settings/backends/s3.html#dynamodb-state-locking
