@@ -61,7 +61,7 @@ resource "aws_vpc" "first_vpc" {
     }
 }
 
-resource "aws_subnet" "name" {
+resource "aws_subnet" "sbnt" {
     vpc_id     = aws_vpc.first_vpc.id
     cidr_block = "10.10.1.0/24"
     tags = {
@@ -87,9 +87,15 @@ resource "aws_route_table" "rt" {
     Name = "rt"
   }
 }
+
+resource "aws_route_table_association" "a" {
+    subnet_id      = aws_subnet.sbnt.id
+    route_table_id = aws_route_table.rt.id
+}
+
 resource "aws_eip" "lb" {
   instance = aws_instance.web[0].id
   vpc = true
-  }
+}
 
 
