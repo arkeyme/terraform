@@ -15,41 +15,42 @@ terraform {
 
 provider "aws" {
   profile = "default"
-  region  = "eu-north-1"
+  region  = "eu-west-1"
 }
 
 resource "aws_vpc" "first_vpc" {
-    cidr_block = "10.10.0.0/16"
+    cidr_block = "10.1.0.0/16"
     enable_dns_hostnames = true
     enable_dns_support = true
     tags = {
-      "Name" = "Prod"
+      "Name" = "wordpress-vpc-1"
     }
 }
 
 resource "aws_vpc" "second_vpc" {
-    cidr_block = "10.11.0.0/16"
+    cidr_block = "10.2.0.0/16"
     enable_dns_hostnames = true
     enable_dns_support = true
     tags = {
-      "Name" = "Prod"
+      "Name" = "wordpress-vpc-2"
     }
 }
 
-
 resource "aws_subnet" "sbnt-vpc1" {
     vpc_id     = aws_vpc.first_vpc.id
-    cidr_block = "10.10.1.0/24"
+    cidr_block = "10.1.1.0/24"
+    availability_zone = data.aws_availability_zones.available.names[0]
     tags = {
-    Name = "Prod_subnet"
+    Name = "wordpress-sbnt-1"
 }
 }
 
 resource "aws_subnet" "sbnt-vpc2" {
     vpc_id     = aws_vpc.second_vpc.id
-    cidr_block = "10.11.1.0/24"
+    availability_zone = data.aws_availability_zones.available.names[1]
+    cidr_block = "10.2.2.0/24"
     tags = {
-    Name = "Prod_subnet"
+    Name = "wordpress-sbnt-2"
 }
 }
 
@@ -95,8 +96,6 @@ resource "aws_route_table_association" "a" {
     subnet_id      = aws_subnet.sbnt-vpc1.id
     route_table_id = aws_route_table.rt1.id
 }
-
-
 
 resource "aws_route_table_association" "b" {
     subnet_id      = aws_subnet.sbnt-vpc2.id
