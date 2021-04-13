@@ -102,10 +102,27 @@ resource "aws_security_group" "allow_ssh_wordpress-1" {
   name        = "allow_1"
   description = "Allow ssh inbound traffic"
   vpc_id     = aws_vpc.first_vpc.id
+  
   ingress {
-    description = "ssh from VPC"
+    description = "SSH from VPC"
     from_port   = 22
     to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "EFS mount target"
+    from_port   = 2049
+    to_port     = 2049
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+ ingress {
+    description = "HTTP from VPC"
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -122,28 +139,34 @@ resource "aws_security_group" "allow_ssh_wordpress-1" {
   }
 }
 
-resource "aws_security_group_rule" "adding_http_rule_1" {
-  type = "ingress"
-  description = "http from VPC"
-  from_port   = 80
-  to_port     = 80
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.allow_ssh_wordpress-1.id
-}
-
 resource "aws_security_group" "allow_ssh_wordpress-2" {
   name        = "allow_2"
   description = "Allow ssh inbound traffic"
   vpc_id     = aws_vpc.first_vpc.id
+  
   ingress {
-    description = "ssh from VPC"
+    description = "SSH from VPC"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "EFS mount target"
+    from_port   = 2049
+    to_port     = 2049
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+ ingress {
+    description = "HTTP from VPC"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   egress {
     from_port   = 0
     to_port     = 0
@@ -155,17 +178,6 @@ resource "aws_security_group" "allow_ssh_wordpress-2" {
     Name = "allow_2"
   }
 }
-
-resource "aws_security_group_rule" "adding_http_rule_2" {
-  type = "ingress"
-  description = "http from VPC"
-  from_port   = 80
-  to_port     = 80
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.allow_ssh_wordpress-2.id
-}
-
 
 resource "aws_instance" "wordpress-1" {
   count = 1
