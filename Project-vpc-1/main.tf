@@ -204,4 +204,33 @@ resource "aws_eip" "eip2" {
   vpc = true
   }
 
+resource "aws_elb" "lb1" {
+  name               = "LB-1"
+  subnets            = [aws_subnet.sbnt-vpc1.id, aws_subnet.sbnt-vpc2.id]
 
+  listener {
+    instance_port     = 80
+    instance_protocol = "http"
+    lb_port           = 80
+    lb_protocol       = "http"
+  }
+
+  health_check {
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 3
+    target              = "HTTP:80/index.html"
+    interval            = 30
+  }
+  
+  security_groups             = [aws_security_group.allow_ssh_wordpress-1.id]
+  instances                   = [aws_instance.wordpress-1[0].id, aws_instance.wordpress-2[0].id]
+  cross_zone_load_balancing   = true
+  idle_timeout                = 400
+  connection_draining         = true
+  connection_draining_timeout = 400
+
+  tags = {
+    Name = "LB-1"
+  }
+}
