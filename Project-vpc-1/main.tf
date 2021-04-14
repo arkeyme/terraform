@@ -231,7 +231,7 @@ resource "aws_elb" "lb1" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 3
-    target              = "HTTP:80/index.html"
+    target              = "HTTP:80/"
     interval            = 30
   }
   
@@ -245,4 +245,14 @@ resource "aws_elb" "lb1" {
   tags = {
     Name = "LB-1"
   }
+}
+
+output "instance_wordpress-1_public_ip" {
+  description = "Public IP address of the EC2 instance"
+  value       = aws_instance.wordpress-1[0].public_ip
+}
+
+output "instance_wordpress-2_public_ip" {
+  description = "Public IP address of the EC2 instance"
+  value       = aws_instance.wordpress-2[0].public_ip
 }
