@@ -224,7 +224,7 @@ resource "aws_security_group" "allow_ssh_wordpress-2" {
 }
 
 resource "aws_instance" "wordpress-1" {
-  count = 4
+  count = 2
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
   key_name = var.key_name
@@ -239,7 +239,7 @@ resource "aws_instance" "wordpress-1" {
 
 
 resource "aws_instance" "wordpress-2" {
-  count = 4
+  count = 2
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
   key_name = var.key_name
@@ -252,10 +252,10 @@ resource "aws_instance" "wordpress-2" {
   }
 }
 
-resource "aws_eip" "eip1" {
-  instance = aws_instance.wordpress-1[0].id
-  vpc = true
-  }
+# resource "aws_eip" "eip1" {
+#   instance = aws_instance.wordpress-1[0].id
+#   vpc = true
+#   }
 
 # resource "aws_eip" "eip2" {
 #   instance = aws_instance.wordpress-2[0].id
@@ -293,10 +293,10 @@ resource "aws_elb" "lb1" {
   }
 }
 
-output "instance_wordpress-1_public_ip" {
-  description = "Public IP address of the EC2 instance"
-  value       = aws_instance.wordpress-1[0].public_ip
-}
+# output "instance_wordpress-1_public_ip" {
+#   description = "Public IP address of the EC2 instance"
+#   value       = aws_instance.wordpress-1[0].public_ip
+# }
 
 # output "instance_wordpress-2_public_ip" {
 #   description = "Public IP address of the EC2 instance"
