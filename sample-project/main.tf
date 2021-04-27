@@ -127,12 +127,6 @@ resource "aws_network_interface" "web_server_nic" {
   subnet_id       = aws_subnet.sbnt-vpc1.id
   private_ips     = ["10.1.1.15"]
   security_groups = [aws_security_group.allow_1.id]
-
-  # attachment {
-  #   instance     = aws_instance.web-1.id
-  #   device_index = 0
-  # }
-
 }
 
 resource "aws_eip" "one" {
