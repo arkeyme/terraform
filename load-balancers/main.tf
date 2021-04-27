@@ -304,7 +304,6 @@ resource "aws_elb" "lb1" {
 # }
 
 
-
 output "lb_dns_name" {
   description = "DNS name of lb1"
   value       = aws_elb.lb1.dns_name
